@@ -11,6 +11,8 @@ on:
   #     - master
   #watch:
   #  types: [started]
+env:
+  SSH_ACTIONS: true
 
 jobs:
 
@@ -42,9 +44,11 @@ jobs:
       - name: Custom configure file
         run: |
           cp diffconfig openwrt/.config
-          cd openwrt
-          make defconfig
-          
+
+      - name: SSH connection to Actions
+        uses: caoshijun/debugger-action@master
+        if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+
       - name: Make download
         run: |
           cd openwrt
