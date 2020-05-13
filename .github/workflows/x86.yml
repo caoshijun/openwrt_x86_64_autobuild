@@ -40,7 +40,7 @@ jobs:
           git clone https://github.com/Lienol/openwrt
           sed -i 's/dnsmasq /dnsmasq-full /' openwrt/include/target.mk
           echo 'src-git lienol https://github.com/Lienol/openwrt-package' >> openwrt/feeds.conf.default
-          echo 'src-git darkmatter https://github.com/Lienol/luci-theme-darkmatter;luci-18.06' >> openwrt/feeds.conf.default
+          #echo 'src-git darkmatter https://github.com/Lienol/luci-theme-darkmatter;luci-18.06' >> openwrt/feeds.conf.default
           cd openwrt
           ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a
 
