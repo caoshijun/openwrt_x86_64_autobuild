@@ -59,10 +59,10 @@ jobs:
       - name: Add OpenClash
         run: |
           git clone https://github.com/vernesong/OpenClash.git
-          mv OpenClash/luci-app-openclash friendlywrt-rk3328/friendlywrt/package
-          cd friendlywrt-rk3328/friendlywrt/package/base-files/files
+          mv OpenClash/luci-app-openclash openwrt/package
+          cd openwrt/package/base-files/files
           mkdir -p etc/openclash/core && cd etc/openclash/core
-          curl -L https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-armv8.tar.gz | tar zxf -
+          curl -L https://github.com/vernesong/OpenClash/releases/download/v0.38.1-beta/clash-linux-amd64.tar.gz |tar zxf -
           chmod +x clash
 
 
