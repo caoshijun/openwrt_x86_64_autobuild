@@ -38,11 +38,6 @@ jobs:
       - name: Checkout Source Code
         run: |
           git clone https://github.com/Lienol/openwrt
-          sed -i 's/dnsmasq /dnsmasq-full /' openwrt/include/target.mk
-          echo 'src-git lienol https://github.com/Lienol/openwrt-package' >> openwrt/feeds.conf.default
-          #echo 'src-git darkmatter https://github.com/Lienol/luci-theme-darkmatter;luci-18.06' >> openwrt/feeds.conf.default
-          cd openwrt
-          ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a
 
       - name: Add Passwall
         run: |
@@ -59,6 +54,17 @@ jobs:
           rm -rf package/lean/luci-app-pptp-server
           rm -rf package/lean/luci-app-v2ray-server
           ./scripts/feeds install -a
+
+
+      - name: Add OpenClash
+        run: |
+          git clone https://github.com/vernesong/OpenClash.git
+          mv OpenClash/luci-app-openclash friendlywrt-rk3328/friendlywrt/package
+          cd friendlywrt-rk3328/friendlywrt/package/base-files/files
+          mkdir -p etc/openclash/core && cd etc/openclash/core
+          curl -L https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-armv8.tar.gz | tar zxf -
+          chmod +x clash
+
 
       - name: Custom configure file
         run: |
@@ -86,10 +92,11 @@ jobs:
         run: |
           find ./openwrt/bin/targets/ -type d -name "packages" | xargs rm -rf {}
           cp openwrt/.config  ./artifact/
+          cp -ar openwrt/bin/targets/ ./artifact/
 
 
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
           name: OpenWrt_x86_64
-          path: ./openwrt/bin/targets/
+          path: ./artifact/
