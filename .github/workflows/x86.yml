@@ -91,8 +91,10 @@ jobs:
       - name: Prepare artifact
         run: |
           find ./openwrt/bin/targets/ -type d -name "packages" | xargs rm -rf {}
-          cp openwrt/.config  ./artifact/
-          cp -ar openwrt/bin/targets/ ./artifact/
+          mkdir -p ./artifact/
+          cp -ar ./openwrt/bin/targets ./artifact/
+          cp ./openwrt/.config  ./artifact/
+          
 
 
       - name: Upload artifact
