@@ -80,7 +80,7 @@ jobs:
       - name: Make default confige
         run: |
           cp -arf defconfig openwrt/.config
-          echo "config done"
+          echo "config done !"
 
       - name: Make download
         run: |
