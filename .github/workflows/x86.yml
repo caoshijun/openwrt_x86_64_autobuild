@@ -39,50 +39,57 @@ jobs:
       - name: Checkout Source Code
         run: |
           git clone https://github.com/Lienol/openwrt
+          cd openwrt/package
+          git clone https://github.com/kenzok8/openwrt-packages.git
 
-      - name: Add Passwall
-        run: |
-          cd openwrt
-          echo -e '\nsrc-git Lienol https://github.com/SuLingGG/openwrt-package' >> feeds.conf.default
-          ./scripts/feeds update -a
-          rm -rf feeds/lienol/lienol/ipt2socks
-          rm -rf feeds/lienol/lienol/shadowsocksr-libev
-          rm -rf feeds/lienol/lienol/pdnsd-alt
-          rm -rf feeds/lienol/package/verysync
-          rm -rf feeds/lienol/lienol/luci-app-verysync
-          rm -rf package/lean/luci-app-kodexplorer
-          rm -rf package/lean/luci-app-pppoe-relay
-          rm -rf package/lean/luci-app-pptp-server
-          rm -rf package/lean/luci-app-v2ray-server
-          ./scripts/feeds install -a
-
-
-      - name: Add OpenClash
-        run: |
-          git clone https://github.com/vernesong/OpenClash.git
-          mv OpenClash/luci-app-openclash openwrt/package
-          cd openwrt/package/base-files/files
-          mkdir -p etc/openclash/core && cd etc/openclash/core
-          curl -L https://github.com/vernesong/OpenClash/releases/download/v0.38.1-beta/clash-linux-amd64.tar.gz |tar zxf -
-          chmod +x clash
-
-
-      - name: Custom configure file
-        run: |
-          cp diffconfig openwrt/.config
-          cd openwrt
-          sed -i 's/192.168.1.1/192.168.23.188/g' package/base-files/files/bin/config_generate
-
-
-          #      - name: SSH connection to Actions
-          #        uses: caoshijun/debugger-action@master
-          #        if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+          #      - name: Add Passwall
+          #        run: |
+          #          cd openwrt
+          #          echo -e '\nsrc-git Lienol https://github.com/SuLingGG/openwrt-package' >> feeds.conf.default
+          #          ./scripts/feeds update -a
+          #          rm -rf feeds/lienol/lienol/ipt2socks
+          #          rm -rf feeds/lienol/lienol/shadowsocksr-libev
+          #          rm -rf feeds/lienol/lienol/pdnsd-alt
+          #          rm -rf feeds/lienol/package/verysync
+          #          rm -rf feeds/lienol/lienol/luci-app-verysync
+          #          rm -rf package/lean/luci-app-kodexplorer
+          #          rm -rf package/lean/luci-app-pppoe-relay
+          #          rm -rf package/lean/luci-app-pptp-server
+          #          rm -rf package/lean/luci-app-v2ray-server
+          #          ./scripts/feeds install -a
+          #
+          #
+          #      - name: Add OpenClash
+          #        run: |
+          #          git clone https://github.com/vernesong/OpenClash.git
+          #          mv OpenClash/luci-app-openclash openwrt/package
+          #          cd openwrt/package/base-files/files
+          #          mkdir -p etc/openclash/core && cd etc/openclash/core
+          #          curl -L https://github.com/vernesong/OpenClash/releases/download/v0.38.1-beta/clash-linux-amd64.tar.gz |tar zxf -
+          #          chmod +x clash
+          #
+          #
+          #      - name: Custom configure file
+          #        run: |
+          #          cp diffconfig openwrt/.config
+          #          cd openwrt
+          #          sed -i 's/192.168.1.1/192.168.23.188/g' package/base-files/files/bin/config_generate
+          #
+          #          #      - name: Make default config
+          #          #          cp -arf defconfig openwrt/.config
+          #          #          cd openwrt
+          #          #          make defconfig
+          #          #
+          #
+      - name: SSH connection to Actions
+        uses: caoshijun/debugger-action@master
+        if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
           
-      - name: Make default confige
-        run: |
-          cp -arf defconfig openwrt/.config
-          cd openwrt
-          make defconfig
+          #       - name: Make default confige
+          #         run: |
+          #           cp -arf defconfig openwrt/.config
+          #           cd openwrt
+          #           make defconfig
 
       - name: Make download
         run: |
