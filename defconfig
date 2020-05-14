@@ -6274,7 +6274,7 @@ CONFIG_POSTFIX_PCRE=y
 # CONFIG_PACKAGE_atftpd is not set
 CONFIG_PACKAGE_curl=y
 # CONFIG_PACKAGE_gnurl is not set
-CONFIG_PACKAGE_lftp=y
+# CONFIG_PACKAGE_lftp=y
 # CONFIG_PACKAGE_rosy-file-server is not set
 # CONFIG_PACKAGE_rsync is not set
 # CONFIG_PACKAGE_rsyncd is not set
