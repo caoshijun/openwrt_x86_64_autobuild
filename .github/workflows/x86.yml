@@ -77,22 +77,22 @@ jobs:
         uses: caoshijun/debugger-action@master
         if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
 
-      - name: Make download
-        run: |
-          cd openwrt
-          make download -j8
-          find dl -size -1024c -exec rm -f {} \;
-          
-      - name: Compile firmware
-        run: |
-          cd openwrt
-          make -s -j$(($(nproc) + 1)) || make -j1 V=s
+        #      - name: Make download
+        #        run: |
+        #          cd openwrt
+        #          make download -j8
+        #          find dl -size -1024c -exec rm -f {} \;
+        #          
+        #      - name: Compile firmware
+        #        run: |
+        #          cd openwrt
+        #          make -s -j$(($(nproc) + 1)) || make -j1 V=s
           
       - name: Prepare artifact
         run: |
           find ./openwrt/bin/targets/ -type d -name "packages" | xargs rm -rf {}
           mkdir -p ./artifact/
-          cp -ar ./openwrt/bin/targets ./artifact/
+          #         cp -ar ./openwrt/bin/targets ./artifact/
           cp ./openwrt/.config  ./artifact/
           
 
